@@ -3,7 +3,8 @@ FROM archlinux:base
 
 # Total update of Arch Linux then installs a httpd
 # Add user, change perms for serving
-RUN pacman -Syu && \
+RUN pacman-key --init && \
+    pacman -Syu && \
     pacman -S darkhttpd && \
     groupadd archbyte && \
     useradd -m -g archbyte archbyte && \
