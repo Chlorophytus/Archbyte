@@ -1,0 +1,11 @@
+services:
+  archbyte:
+    build: ./
+    volumes :
+      - type: bind
+        source: /opt/raid/archbyte/
+        target: /srv/archbyte/
+    ports:
+      - 8080
+volumes:
+  srv-archbyte:
