@@ -21,17 +21,22 @@ FROM initialize as prepare
 RUN pacman -Syu --noconfirm && \
     pacman -S --noconfirm darkhttpd
 
-# =============================================================================
-# Cache
-# =============================================================================
-# Must depend on previous preparation (updates)
-FROM prepare AS cache
-
 # Copy packages list
 COPY ${PACKAGES_LIST} /srv/archbyte/packages.txt
 
 # Downloads but does not install the packages we are caching
-RUN pacman -Sw --noconfirm --root /srv/archbyte $(< /srv/archbyte/packages.txt)
+# Copy package cache to here
+RUN pacman -Sw --noconfirm $(< /srv/archbyte/packages.txt) && \
+    cp /var/cache/pacman/pkg/* /srv/archbyte/
+
+# =============================================================================
+# Cache
+# =============================================================================
+# Must depend on previous preparation (updates)
+FROM prepare AS serve
+
+# Drop
+WORKDIR /srv/archbyte
 
 # Serve
-ENTRYPOINT [ "/usr/bin/darkhttpd", "/srv/archbyte" ]
+ENTRYPOINT [ "/usr/bin/darkhttpd", ".", "--no-server-id" ]

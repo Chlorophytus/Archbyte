@@ -2,7 +2,7 @@ services:
   archbyte:
     build:
       context: ./
-      target: cache
+      target: serve
       args:
         PACKAGES_LIST: /etc/archbyte/packages.txt
     volumes :
