@@ -26,7 +26,7 @@ RUN pacman -Syu --noconfirm && \
 FROM prepare AS cache
 
 # Downloads but does not install the packages we are caching
-RUN cd /archbyte && ls -alh . && pacman -Sw - --noconfirm --root . < packages.txt
+RUN ls -alh / && cd /archbyte && pacman -Sw - --noconfirm --root . < packages.txt
 
 # Serve
 ENTRYPOINT [ "/usr/bin/darkhttpd", "." ]
