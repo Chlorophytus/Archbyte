@@ -1,6 +1,8 @@
 services:
   archbyte:
-    build: ./
+    build:
+      context: ./
+      target: cache
     volumes :
       - type: bind
         source: /opt/raid/archbyte/

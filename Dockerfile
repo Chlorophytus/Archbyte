@@ -1,22 +1,39 @@
+# =============================================================================
+# Initialize keyring and user
+# =============================================================================
 # Must depend on Arch Linux
-FROM archlinux:base
+FROM archlinux:base AS initialize
 
-# Total update of Arch Linux then installs a httpd
-# Add user, change perms for serving
+# We only have to initialize the keyring and user
 RUN pacman-key --init && \
-    pacman -Syu --noconfirm darkhttpd && \
     groupadd archbyte && \
-    useradd -m -g archbyte archbyte && \
-    chown archbyte:archbyte /srv/archbyte
+    useradd -g archbyte archbyte
 
-# Switch to this user
+# =============================================================================
+# Prepare
+# =============================================================================
+# Must depend on our previous keyring
+FROM initialize as prepare
+
+# Update Pacman packages and install http daemon
+RUN pacman -Syu --noconfirm && \
+    pacman -S --noconfirm darkhttpd
+
+# =============================================================================
+# Cache
+# =============================================================================
+# Must depend on previous preparation (updates)
+FROM prepare AS cache
+
+# /srv/archbyte should be a volume in cold storage
+RUN chown -R archbyte:archbyte /srv/archbyte
+
+# Change user and workdir
 USER archbyte
-
-# Go into archbyte cache directory
 WORKDIR /srv/archbyte
 
 # Downloads but does not install the packages we are caching
-RUN pacman -Sw - --noconfirm --root . < packages.txt
+RUN pacman -Sw - --noconfirm --root . < ./packages.txt
 
 # Serve
 ENTRYPOINT [ "/usr/bin/darkhttpd", "." ]
