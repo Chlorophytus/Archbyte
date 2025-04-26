@@ -4,8 +4,13 @@ services:
       context: ./
       target: cache
     volumes :
-      - /opt/raid/archbyte:/srv/archbyte:rw,Z
+      - bind:/srv/archbyte:rw,Z
     ports:
       - 8080
 volumes:
-  archbyte:
+  bind:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/raid/archbyte
+      o: bind
