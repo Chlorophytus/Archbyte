@@ -25,11 +25,7 @@ RUN pacman -Syu --noconfirm && \
 # Must depend on previous preparation (updates)
 FROM prepare AS cache
 
-# /srv/archbyte should be a volume in cold storage
-RUN chown -R archbyte:archbyte /srv/archbyte
-
-# Change user and workdir
-USER archbyte
+# Change workdir
 WORKDIR /srv/archbyte
 
 # Downloads but does not install the packages we are caching
