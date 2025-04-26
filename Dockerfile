@@ -25,11 +25,8 @@ RUN pacman -Syu --noconfirm && \
 # Must depend on previous preparation (updates)
 FROM prepare AS cache
 
-# Change workdir
-WORKDIR /srv/archbyte
-
 # Downloads but does not install the packages we are caching
-RUN ls -alh . && pacman -Sw - --noconfirm --root . < packages.txt
+RUN cd /srv/archbyte && ls -alh . && pacman -Sw - --noconfirm --root . < packages.txt
 
 # Serve
 ENTRYPOINT [ "/usr/bin/darkhttpd", "." ]
