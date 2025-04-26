@@ -7,7 +7,8 @@ FROM archlinux:base AS initialize
 # We only have to initialize the keyring and user
 RUN pacman-key --init && \
     groupadd archbyte && \
-    useradd -g archbyte archbyte
+    useradd -g archbyte archbyte && \
+    mkdir -p /srv/archbyte
 
 # =============================================================================
 # Prepare
@@ -26,7 +27,7 @@ RUN pacman -Syu --noconfirm && \
 FROM prepare AS cache
 
 # Downloads but does not install the packages we are caching
-RUN ls -alh / && cd /archbyte && pacman -Sw - --noconfirm --root . < packages.txt
+RUN ls -alh /srv/archbyte && cd /srv/archbyte && pacman -Sw - --noconfirm --root . < packages.txt
 
 # Serve
 ENTRYPOINT [ "/usr/bin/darkhttpd", "." ]
