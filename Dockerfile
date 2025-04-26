@@ -29,7 +29,7 @@ FROM prepare AS cache
 WORKDIR /srv/archbyte
 
 # Downloads but does not install the packages we are caching
-RUN pacman -Sw - --noconfirm --root . < ./packages.txt
+RUN pacman -Sw - --noconfirm --root . < packages.txt
 
 # Serve
 ENTRYPOINT [ "/usr/bin/darkhttpd", "." ]
