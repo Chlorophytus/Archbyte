@@ -31,8 +31,7 @@ FROM prepare AS cache
 COPY ${PACKAGES_LIST} /srv/archbyte/packages.txt
 
 # Downloads but does not install the packages we are caching
-WORKDIR /srv/archbyte
-RUN pacman -Sw --noconfirm --root . $(< packages.txt)
+RUN pacman -Sw --noconfirm --root /srv/archbyte $(< /srv/archbyte/packages.txt)
 
 # Serve
-ENTRYPOINT [ "/usr/bin/darkhttpd", "." ]
+ENTRYPOINT [ "/usr/bin/darkhttpd", "/srv/archbyte" ]
