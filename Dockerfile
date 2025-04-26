@@ -39,4 +39,4 @@ FROM prepare AS serve
 WORKDIR /srv/archbyte
 
 # Serve
-ENTRYPOINT [ "/usr/bin/darkhttpd", ".", "--no-server-id" ]
+ENTRYPOINT [ "/usr/bin/darkhttpd", ".", "--port 8080", "--no-server-id" ]
