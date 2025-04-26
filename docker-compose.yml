@@ -3,6 +3,8 @@ services:
     build:
       context: ./
       target: cache
+      args:
+        PACKAGES_LIST: /etc/archbyte/packages.txt
     volumes :
       - bind:/srv/archbyte
     ports:

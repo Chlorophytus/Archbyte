@@ -1,13 +1,14 @@
 # =============================================================================
 # Initialize keyring and user
 # =============================================================================
+ARG PACKAGES_LIST
+
 # Must depend on Arch Linux
 FROM archlinux:base AS initialize
 
 # We only have to initialize the keyring and user
 RUN pacman-key --init && \
     groupadd archbyte && \
-    useradd -g archbyte archbyte && \
     mkdir -p /srv/archbyte
 
 # =============================================================================
@@ -15,6 +16,9 @@ RUN pacman-key --init && \
 # =============================================================================
 # Must depend on our previous keyring
 FROM initialize as prepare
+
+# Copy packages list
+COPY ${PACKAGES_LIST} /srv/archbyte/packages.txt
 
 # Update Pacman packages and install http daemon
 RUN pacman -Syu --noconfirm && \
@@ -27,7 +31,8 @@ RUN pacman -Syu --noconfirm && \
 FROM prepare AS cache
 
 # Downloads but does not install the packages we are caching
-RUN ls -alh /srv/archbyte && cd /srv/archbyte && pacman -Sw - --noconfirm --root . < packages.txt
+WORKDIR /srv/archbyte
+RUN pacman -Sw - --noconfirm --root . < packages.txt
 
 # Serve
 ENTRYPOINT [ "/usr/bin/darkhttpd", "." ]
