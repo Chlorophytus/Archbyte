@@ -4,7 +4,7 @@ services:
       context: ./
       target: cache
     volumes :
-      - srv-archbyte:/srv/archbyte:Z
+      - srv-archbyte:/srv/archbyte:z
     ports:
       - 8080
 volumes:
