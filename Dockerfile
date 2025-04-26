@@ -17,9 +17,6 @@ RUN pacman-key --init && \
 # Must depend on our previous keyring
 FROM initialize as prepare
 
-# Copy packages list
-COPY ${PACKAGES_LIST} /srv/archbyte/packages.txt
-
 # Update Pacman packages and install http daemon
 RUN pacman -Syu --noconfirm && \
     pacman -S --noconfirm darkhttpd
@@ -29,6 +26,9 @@ RUN pacman -Syu --noconfirm && \
 # =============================================================================
 # Must depend on previous preparation (updates)
 FROM prepare AS cache
+
+# Copy packages list
+COPY ${PACKAGES_LIST} /srv/archbyte/packages.txt
 
 # Downloads but does not install the packages we are caching
 WORKDIR /srv/archbyte
