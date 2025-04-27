@@ -22,7 +22,7 @@ RUN pacman -Syu --noconfirm && \
     pacman -S --noconfirm darkhttpd
 
 # Copy packages list
-COPY ${PACKAGES_LIST_DIR}/packages.txt /srv/archbyte/
+COPY $PACKAGES_LIST_DIR/packages.txt /srv/archbyte/
 
 # Downloads but does not install the packages we are caching
 # Copy package cache to here
