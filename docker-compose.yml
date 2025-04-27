@@ -4,7 +4,7 @@ services:
       context: ./
       target: serve
     volumes :
-      - bind:/srv/archbyte
+      - bind:/srv/archbyte:rw
     ports:
       - 8080:8080
 volumes:
