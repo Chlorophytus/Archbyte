@@ -6,7 +6,7 @@ FROM archlinux:base AS initialize
 
 # We only have to initialize the keyring and user
 RUN pacman-key --init && \
-    mkdir -p /srv/archbyte
+    mkdir -p /etc/archbyte
 
 # =============================================================================
 # Cache
@@ -15,12 +15,12 @@ RUN pacman-key --init && \
 FROM initialize AS serve
 
 # Copy packages list
-COPY ./packages.txt /srv/archbyte/
+COPY ./packages.txt /etc/archbyte/
 
 RUN pacman -Syu --noconfirm && \
     pacman -S --noconfirm darkhttpd && \
-    pacman -S --noconfirm $(< /srv/archbyte/packages.txt) --cachedir=/srv/archbyte/
-
+    pacman -Syuw --noconfirm $(< /etc/archbyte/packages.txt) && \
+    cp /var/cache/pacman/pkg/* /srv/archbyte/
 # Drop
 WORKDIR /srv/archbyte
 
