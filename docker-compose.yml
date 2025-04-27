@@ -1,9 +1,0 @@
-services:
-  archbyte:
-    build:
-      context: ./
-      target: serve
-    volumes :
-      - /opt/raid/archbyte:/srv/archbyte:rw,z
-    ports:
-      - 8080:8080
