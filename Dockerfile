@@ -17,7 +17,8 @@ FROM initialize AS serve
 
 RUN pacman -Syu --noconfirm && \
     pacman -S --noconfirm darkhttpd && \
-    pacman -Suw --asdeps --cachedir /srv/archbyte --noconfirm - < /srv/archbyte/packages.txt && \
+    pacman -S --cachedir /srv/archbyte --noconfirm base && \
+    pacman -Suw --cachedir /srv/archbyte --noconfirm - < /srv/archbyte/packages.txt && \
     chown -R archbyte:archbyte /srv/archbyte
 
 # Drop privileges
