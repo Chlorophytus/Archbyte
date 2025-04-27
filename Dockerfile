@@ -21,4 +21,4 @@ RUN pacman -Syu --noconfirm && \
 WORKDIR /srv/archbyte
 
 # Serve
-CMD [ "/usr/bin/darkhttpd", ".", "--no-server-id" ]
+ENTRYPOINT [ "/usr/bin/darkhttpd", "." ]
