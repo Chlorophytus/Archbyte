@@ -15,9 +15,11 @@ RUN pacman-key --init && \
 # Must depend on previous preparation (updates)
 FROM initialize AS serve
 
+# Update the system, install pactree (must be used to enumerate base packages)
+# and then install the packages.txt listing
 RUN pacman -Syu --noconfirm && \
-    pacman -S --noconfirm darkhttpd && \
-    pacman -S --cachedir /srv/archbyte --noconfirm base && \
+    pacman -S --noconfirm darkhttpd pacman-contrib && \
+    pacman -Suw --cachedir /srv/archbyte --noconfirm - < $(pactree -u base) && \
     pacman -Suw --cachedir /srv/archbyte --noconfirm - < /srv/archbyte/packages.txt && \
     chown -R archbyte:archbyte /srv/archbyte
 
