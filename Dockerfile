@@ -1,8 +1,6 @@
 # =============================================================================
 # Initialize keyring and user
 # =============================================================================
-ARG PACKAGES_LIST_DIR
-
 # Must depend on Arch Linux
 FROM archlinux:base AS initialize
 
@@ -16,6 +14,7 @@ RUN pacman-key --init && \
 # =============================================================================
 # Must depend on our previous keyring
 FROM initialize as prepare
+ARG PACKAGES_LIST_DIR
 
 # Update Pacman packages and install http daemon
 RUN pacman -Syu --noconfirm && \
