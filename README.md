@@ -14,8 +14,7 @@ xfce4
 xfce4-goodies
 ```
 
-Defining these would auto-build `base-devel` and a few other packages. `base`
-will always be auto-downloaded.
+Defining these would auto-build `base`, `base-devel` and a few other packages.
 
 ### Building
 
