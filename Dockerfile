@@ -1,5 +1,5 @@
 # =============================================================================
-# Initialize keyring and user
+# Initialize keyring
 # =============================================================================
 # Must depend on Arch Linux
 FROM archlinux:base AS initialize
@@ -9,18 +9,26 @@ RUN pacman-key --init && \
     mkdir -p /etc/archbyte
 
 # =============================================================================
-# Cache
+# Download packages
 # =============================================================================
 # Must depend on previous preparation (updates)
-FROM initialize AS serve
+FROM initialize AS download
 
 # Copy packages list
 COPY ./packages.txt /etc/archbyte/
 
 RUN pacman -Syu --noconfirm && \
     pacman -S --noconfirm darkhttpd && \
-    pacman -Syuw --noconfirm $(< /etc/archbyte/packages.txt) && \
-    cp /var/cache/pacman/pkg/* /srv/archbyte/
+    pacman -Syuw --noconfirm $(< /etc/archbyte/packages.txt)
+
+# =============================================================================
+# Copy and serve packages
+# =============================================================================
+FROM download as serve
+
+# Copy packages
+RUN cp /var/cache/pacman/pkg/* /srv/archbyte/
+
 # Drop
 WORKDIR /srv/archbyte
 
