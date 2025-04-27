@@ -19,7 +19,7 @@ FROM initialize AS serve
 # and then install the packages.txt listing
 RUN pacman -Syu --noconfirm && \
     pacman -S --noconfirm darkhttpd pacman-contrib && \
-    pacman -Suw --cachedir /srv/archbyte --noconfirm - < $(pactree -u base) && \
+    pacman -Suw --cachedir /srv/archbyte --noconfirm $(pactree -u base) && \
     pacman -Suw --cachedir /srv/archbyte --noconfirm - < /srv/archbyte/packages.txt && \
     chown -R archbyte:archbyte /srv/archbyte
 
