@@ -1,0 +1,9 @@
+[Unit]
+Description=Run Archbyte on a periodic basis
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target

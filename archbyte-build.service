@@ -1,0 +1,7 @@
+[Unit]
+Description=Rebuild Archbyte cache
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/podman build -v /opt/raid/archbyte:/srv/archbyte -t archbyte:latest /var/archbyte
+ExecStart=/usr/bin/podman image prune -f

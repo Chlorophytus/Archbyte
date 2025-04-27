@@ -1,0 +1,16 @@
+[Unit]
+Description=Archbyte Quadlet
+
+[Container]
+Image=localhost/archbyte:latest
+ContainerName=archbyte
+AutoUpdate=local
+Volume=/opt/raid/archbyte:/srv/archbyte
+PublishPort=8080:8080
+
+[Service]
+Restart=always
+TimeoutStartSec=15
+
+[Install]
+WantedBy=multi-user.target default.target
