@@ -5,7 +5,9 @@
 FROM archlinux:base AS initialize
 
 # We only have to initialize the keyring and user
-RUN pacman-key --init
+RUN pacman-key --init && \
+    groupadd archbyte && \
+    useradd -g archbyte archbyte
 
 # =============================================================================
 # Download then serve packages
@@ -15,10 +17,12 @@ FROM initialize AS serve
 
 RUN pacman -Syu --noconfirm && \
     pacman -S --noconfirm darkhttpd && \
-    pacman -Suw --noconfirm $(< /srv/archbyte/packages.txt) --cachedir /srv/archbyte
+    pacman -Suw --noconfirm $(< /srv/archbyte/packages.txt) --cachedir /srv/archbyte && \
+    chown -R archbyte:archbyte /srv/archbyte
 
-# Drop
-WORKDIR /srv/archbyte
+# Drop privileges
+USER archbyte
 
 # Serve
-ENTRYPOINT [ "/usr/bin/darkhttpd", "." ]
+ENTRYPOINT [ "/usr/bin/darkhttpd", "/srv/archbyte" ]
+CMD [ "--port", "8080" ]
