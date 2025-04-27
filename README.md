@@ -7,14 +7,15 @@ Podman/Docker virtualization setup for caching Pacman packages in cold storage
 
 You define a `packages.txt` file with different packages that are of use.
 
+`base` will be installed into cache automatically.
+
 ```
-base
 base-devel
 xfce4
 xfce4-goodies
 ```
 
-Defining these would auto-build `base`, `base-devel` and a few other packages.
+Defining these would auto-build `base-devel`, `xfce4` and a few other packages.
 
 ### Building
 
