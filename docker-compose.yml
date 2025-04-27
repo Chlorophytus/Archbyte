@@ -4,7 +4,7 @@ services:
       context: ./
       target: serve
       args:
-        PACKAGES_LIST: /etc/archbyte/packages.txt
+        PACKAGES_LIST_DIR: /etc/archbyte/
     volumes :
       - bind:/srv/archbyte
     ports:
