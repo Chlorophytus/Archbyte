@@ -10,9 +10,11 @@ You define a `packages.txt` file with different packages that are of use.
 ```
 base
 base-devel
+xfce4
+xfce4-goodies
 ```
 
-Defining these would auto-build `base` and `base-devel`.
+Defining these would auto-build `base`, `base-devel` and a few other packages.
 
 ### Building
 
