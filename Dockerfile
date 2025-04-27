@@ -14,14 +14,13 @@ RUN pacman-key --init && \
 # =============================================================================
 # Must depend on our previous keyring
 FROM initialize as prepare
-ARG PACKAGES_LIST_DIR
 
 # Update Pacman packages and install http daemon
 RUN pacman -Syu --noconfirm && \
     pacman -S --noconfirm darkhttpd
 
 # Copy packages list
-ADD $PACKAGES_LIST_DIR/packages.txt /srv/archbyte/
+COPY ./packages.txt /srv/archbyte/
 
 # Downloads but does not install the packages we are caching
 # Copy package cache to here
