@@ -24,8 +24,7 @@ COPY ./packages.txt /srv/archbyte/
 
 # Downloads but does not install the packages we are caching
 # Copy package cache to here
-RUN pacman -Syuw --noconfirm $(< /srv/archbyte/packages.txt) && \
-    cp /var/cache/pacman/pkg/* /srv/archbyte/
+RUN pacman -Suw --noconfirm $(< /srv/archbyte/packages.txt) --cachedir=/srv/archbyte/
 
 # =============================================================================
 # Cache
