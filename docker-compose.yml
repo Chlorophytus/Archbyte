@@ -4,6 +4,6 @@ services:
       context: ./
       target: serve
     volumes :
-      - /opt/raid/archbyte:/srv/archbyte:rw,Z
+      - /opt/raid/archbyte:/srv/archbyte:rw,z
     ports:
       - 8080:8080
