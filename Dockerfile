@@ -27,7 +27,7 @@ RUN pacman -Syu --noconfirm && \
 FROM download as serve
 
 # Copy packages
-RUN cp /var/cache/pacman/pkg/* /srv/archbyte/
+RUN mkdir /srv/archbyte && cp /var/cache/pacman/pkg/* /srv/archbyte/
 
 # Drop
 WORKDIR /srv/archbyte
