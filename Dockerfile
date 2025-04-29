@@ -9,6 +9,8 @@ RUN pacman-key --init && \
     groupadd archbyte && \
     useradd -g archbyte archbyte
 
+ADD ./checkdep.sh /usr/local/bin/
+
 # =============================================================================
 # Download then serve packages
 # =============================================================================
@@ -19,8 +21,7 @@ FROM initialize AS serve
 # and then install the packages.txt listing
 RUN pacman -Syu --noconfirm && \
     pacman -S --noconfirm darkhttpd pacman-contrib && \
-    pacman -Suw --cachedir /srv/archbyte --noconfirm $(pactree -u base) && \
-    pacman -Suw --cachedir /srv/archbyte --noconfirm - < /srv/archbyte/packages.txt && \
+    /usr/local/bin/checkdep.sh $(pactree -u base - < /srv/archbyte/packages.txt) && \
     chown -R archbyte:archbyte /srv/archbyte
 
 # Drop privileges
