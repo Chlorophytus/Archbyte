@@ -22,7 +22,7 @@ FROM initialize AS serve
 RUN pacman -Syu --noconfirm && \
     pacman -S --noconfirm darkhttpd pacman-contrib && \
     /usr/local/bin/checkdep.sh $(pactree -u base | grep "^[^<=>]*$" | tr '\n' ' ') && \
-    /usr/local/bin/checkdep.sh $($(pactree -u - < /srv/archbyte/packages.txt) | grep "^[^<=>]*$" | tr '\n' ' ') && \
+    /usr/local/bin/checkdep.sh $($(pactree -u < /srv/archbyte/packages.txt) | grep "^[^<=>]*$" | tr '\n' ' ') && \
     chown -R archbyte:archbyte /srv/archbyte
 
 # Drop privileges
