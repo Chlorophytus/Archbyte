@@ -15,13 +15,13 @@ check_dependency () {
 }
 
 get_dependencies () {
-  while read DEPENDENCY; do 
+  while read -u 4 DEPENDENCY; do 
     echo "(ARCHBYTE) -> Detected dependency $DEPENDENCY in $1"
     check_dependency $DEPENDENCY
-  done < <(pactree -u $1 | grep "^[^<=>]*$")
+  done 4< <(pactree -u $1 | grep "^[^<=>]*$")
 }
 
-while read PACKAGE; do
+while read -u 3 PACKAGE; do
   echo "(ARCHBYTE) -> Getting dependencies for package: $PACKAGE"
   get_dependencies $PACKAGE
-done < $PACKAGELIST
+done 3< $PACKAGELIST
