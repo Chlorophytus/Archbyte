@@ -9,7 +9,6 @@ RUN pacman-key --init && \
     groupadd archbyte && \
     useradd -g archbyte archbyte
 
-ADD ./checkdep.sh /usr/local/bin/
 ADD ./recursedeps.sh /usr/local/bin/
 
 # =============================================================================
