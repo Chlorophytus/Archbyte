@@ -10,6 +10,7 @@ RUN pacman-key --init && \
     useradd -g archbyte archbyte
 
 ADD ./checkdep.sh /usr/local/bin/
+ADD ./recursedeps.sh /usr/local/bin/
 
 # =============================================================================
 # Download then serve packages
@@ -21,8 +22,7 @@ FROM initialize AS serve
 # and then install the packages.txt listing
 RUN pacman -Syu --noconfirm && \
     pacman -S --noconfirm darkhttpd pacman-contrib && \
-    /usr/local/bin/checkdep.sh $(pactree -u base | grep "^[^<=>]*$" | tr '\n' ' ') && \
-    /usr/local/bin/checkdep.sh $($(pactree -u < /srv/archbyte/packages.txt) | grep "^[^<=>]*$" | tr '\n' ' ') && \
+    /usr/local/bin/recursedeps.sh && \
     chown -R archbyte:archbyte /srv/archbyte
 
 # Drop privileges
