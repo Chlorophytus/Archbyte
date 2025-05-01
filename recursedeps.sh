@@ -18,7 +18,7 @@ get_dependencies () {
   while read -r -u 4 dependency; do 
     echo "(ARCHBYTE) -> Detected dependency $dependency in $1"
     check_dependency $dependency
-  done 4< <(pactree -u $1 | grep "^[^<=>]*$")
+  done 4< <(pactree -s -u $1 | grep "^[^<=>]*$")
 }
 
 while read -r -u 3 line; do
