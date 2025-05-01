@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 CACHEDIR="/srv/archbyte"
 ARCHITECTURE="x86_64"
